@@ -37,6 +37,20 @@ const userSchema = new mongoose.Schema(
             required: true,
             ref: "organization",
         },
+        permissions: [{
+            type: String,
+            default: null,
+        }],
+        isAdmin: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
+        isSuperUser: {
+            type: Boolean,
+            required: true,
+            default: false,
+        }
     },
     {
         timestamps: {createdAt: "createdAt", updatedAt: "updatedAt"},

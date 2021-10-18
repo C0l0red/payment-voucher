@@ -21,10 +21,16 @@ const organizationSchema = new mongoose.Schema(
             ref: "user",
             select: false,
         }],
-        staffTypes: [{
-            type: String,
+        staffTypes: {
+            type: Map,
             required: true,
-        }],
+            of: new mongoose.Schema({
+                name: String,
+                permissions: [String],
+                isAdmin: Boolean,
+                isSuperUser: Boolean,
+            })
+        },
         vouchers: [{
             type: mongoose.ObjectId,
             ref: "Voucher",
