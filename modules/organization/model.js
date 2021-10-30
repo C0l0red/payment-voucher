@@ -1,5 +1,23 @@
 const mongoose = require('mongoose');
 
+exports.staffType = new mongoose.Schema({
+    name: String,
+    accessLevel: {
+        type: String,
+        required: true,
+        enum: [
+            "staff",
+            "manager",
+            "headCapitalUnit",
+            "auditor",
+            "treasurer",
+            "admin",
+        ]
+    },
+    isAdmin: Boolean,
+    isSuperUser: Boolean,
+})
+
 const organizationSchema = new mongoose.Schema(
     {
         name: {
@@ -21,16 +39,11 @@ const organizationSchema = new mongoose.Schema(
             ref: "user",
             select: false,
         }],
-        staffTypes: {
+        staffTypes: [{
             type: Map,
             required: true,
-            of: new mongoose.Schema({
-                name: String,
-                permissions: [String],
-                isAdmin: Boolean,
-                isSuperUser: Boolean,
-            })
-        },
+            of: staffType,
+        }],
         vouchers: [{
             type: mongoose.ObjectId,
             ref: "Voucher",
@@ -46,4 +59,4 @@ const organizationSchema = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model("organization", organizationSchema);
+exports.Organization = mongoose.model("organization", organizationSchema);
